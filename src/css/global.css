@@ -1,0 +1,10 @@
+* {
+    box-sizing: border-box;
+  }
+  body {
+      margin: 0;
+      min-width: 250px;
+      background-color: #F0F0F7;
+      color: #32264D;
+      font-family: "Roboto", sans-serif;
+  }  
