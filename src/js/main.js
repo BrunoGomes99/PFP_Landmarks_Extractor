@@ -35,6 +35,22 @@ app.on("window-all-closed", ()=>{
     if(process.platform !== "darwin") app.quit();
 })
 
+ipcMain.on("save-result-text", (event, args) => {
+    text = args[0]
+});
+
+ipcMain.on("get-result-text", (event, args) => {
+    event.returnValue = [text]
+});
+
+ipcMain.on("save-options", (event, args) => {
+    options = args[0]
+});
+
+ipcMain.on("get-options", (event, args) => {
+    event.returnValue = [options]
+});
+
 // Quando o evento 'load-videos' for chamado, o caminho do diretório e os arquivos de vídeos são salvos
 ipcMain.on("load-videos", (event, args) => {
     path = args[0]

@@ -1,0 +1,17 @@
+body {
+    margin: 0;
+    min-width: 250px;
+    background-color: #F0F0F7;
+    color: #32264D;
+    font-family: "Roboto", sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    /*transform: scale(4);*/
+}
+
+.divButton {
+    display: flex;
+    justify-content: center;
+}

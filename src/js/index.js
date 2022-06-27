@@ -14,10 +14,66 @@ document.addEventListener('DOMContentLoaded', function(){
   buttonPathDestiny.onclick = () => selectDirDestiny();
 
   let confirmButton = document.getElementById("confirmButton");
-  confirmButton.onclick = () => runScript();
+  confirmButton.onclick = () => validateFields();    
 })
 
-async function runScript(){
+function validateFields() {
+
+    let inputPathSource = document.getElementById("inputPathSource");
+    let inputPathDestiny = document.getElementById("inputPathDestiny");
+    let batchSizeNumber = document.getElementById("batchSizeNumber");
+
+    let requiredSpanCaminhoOrigem = document.getElementById("avisoCaminhoOrigem");    
+    let requiredSpanCaminhoDestino = document.getElementById("avisoCaminhoDestino");    
+    let requiredSpanBatchSize = document.getElementById("avisoBatchSize");    
+
+    let isValidFields = false;
+
+    // Se o usuário não selecionar um caminho de origem, a mensagem de obrigatoriedade será mostrada
+    if (inputPathSource.value == "" || inputPathSource.value == "./"){        
+        requiredSpanCaminhoOrigem.hidden = false;
+        inputPathSource.required = true;
+        isValidFields = false;
+    }
+     // Se o usuário selecionar um caminho de origem, a mensagem de obrigatoriedade será escondida
+    else{        
+        requiredSpanCaminhoOrigem.hidden = true;
+        inputPathSource.required = false;
+        isValidFields = true;
+    }
+
+    // Se o usuário não selecionar um caminho de destino, a mensagem de obrigatoriedade será mostrada
+    if (inputPathDestiny.value == "" || inputPathDestiny.value == "./"){        
+        requiredSpanCaminhoDestino.hidden = false;
+        inputPathDestiny.required = true;
+        isValidFields = false;
+    }
+     // Se o usuário selecionar um caminho de destino, a mensagem de obrigatoriedade será escondida
+    else{        
+        requiredSpanCaminhoDestino.hidden = true;
+        inputPathDestiny.required = false;
+        isValidFields = true;
+    }
+
+    // Se o usuário não selecionar o intervalo de frames, a mensagem de obrigatoriedade será mostrada
+    if (batchSizeNumber.value == "" || batchSizeNumber.value == "0"){        
+        requiredSpanBatchSize.hidden = false;
+        batchSizeNumber.required = true;
+        isValidFields = false;
+    }
+     // Se o usuário selecionar  o intervalo de frames, a mensagem de obrigatoriedade será escondida
+    else{        
+        requiredSpanBatchSize.hidden = true;
+        batchSizeNumber.required = false;
+        isValidFields = true;
+    }
+
+    if (isValidFields)
+        prepareScript()
+
+}
+
+function prepareScript(){
     
     let batch_size = document.getElementById("batchSizeNumber").value;
     let path_destiny = document.getElementById("inputPathDestiny").value;
@@ -30,19 +86,25 @@ async function runScript(){
     
     // Define os argumentos que serão passados para o script em python
     let options = {     
-        scriptPath: path.join(__dirname, '../py/'),   
+        scriptPath: path.join(__dirname, '../py/'),
         args: ['--path-dir',selected_path,'--path-destiny',path_destiny,'--batch-size',batch_size]
      };     
 
-     PythonShell.run('extract_landmarks.py', options, function (err, results) {              
-       if (err){        
-        throw err;
-           // Caso ocorra um erro na chamada do script
-           //reject({ success: false, err });
-       }
-       alert("Landmarks extraídas com sucesso.")
-       //resolve({ success: true, results });
-     });
+     ipcRenderer.send('save-options', [options]);
+
+     window.location.replace("../html/loadingscreen.html"); //Redireciona a pagina para loadingscreen.html
+     
+     //PythonShell.run('extract_landmarks.py', options, function (err, results) {       
+     //           
+     //  if (err){        
+     //   alert(err.message)
+     //   throw err;
+     //  }
+     //  //alert(results)
+     //  ipcRenderer.sendSync('change-page', "");
+     //  resultText.value = results;
+     //  //window.location.replace("../html/resultscreen.html"); //Redireciona a pagina para loadingscreen.html
+     //});
 }
 
 // Este método abre uma janela para a seleção do diretório contendo os vídeos para a extração de landmarks
