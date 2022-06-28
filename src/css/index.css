@@ -1,14 +1,51 @@
 * {
     box-sizing: border-box;
   }
-  body {
-      margin: 0;
-      min-width: 250px;
-      background-color: #F0F0F7;
-      color: #32264D;
-      font-family: "Roboto", sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;      
-  }
+body {
+    margin: 0;
+    min-width: 250px;
+    background-color: #F0F0F7;
+    color: #32264D;
+    font-family: "Roboto", sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;      
+}
+
+button {
+  width: 180px;
+}
+
+.popup div {
+    display:none;
+    position:relative;
+}
+
+.popup:hover div {
+    display:block;
+}
+  
+/* daqui pra baixo é só estética para demonstração */
+.popup {
+  width:1.5em;height:1.5em;
+  text-align:center;
+  font:12px/1.5em "Roboto",arial,helvetica,sans-serif;
+  border:1px solid #999;
+  border-radius:50%;
+  color:#999;
+  margin-left: 5px;
+}
+
+.popup div {
+  width: 20em;
+  color:#fff;
+  background: #494949aa;
+  border-radius:5px;
+  padding:5px;
+}
+
+.infoLabel {
+  display: flex;
+  align-items: center;
+}

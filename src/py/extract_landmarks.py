@@ -139,7 +139,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
         
     result = extract_landmarks(args.path_dir, args.batch_size)
-    
+        
     #result = save_landmarks(landmarks, frames)
     
     if result == {}:

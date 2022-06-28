@@ -1,3 +1,6 @@
 node_modules/
 package-lock.json
 yarn.lock
+
+#Pasta com videos para teste do script python
+src/py/teste/
