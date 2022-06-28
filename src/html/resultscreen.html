@@ -1,3 +1,6 @@
+<!-- Autor: Bruno Gomes -->
+<!-- Página responsável por exibir a mensagem resultante do script Python -->
+
 <!DOCTYPE html>
 <html>
 
@@ -7,12 +10,15 @@
         
         <title>Landmarks Extractor</title>                                        
         
+        <!-- Carrega o bootstrap, fonte e resultscreen.css -->
+        <link href="<https://fonts.googleapis.com/css2?family=Roboto&display=swap>" rel="stylesheet">
         <link href="./../../node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
         <script src="./../../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
         <link href="../css/resultscreen.css" rel="stylesheet">
     </head>
 
-    <body>            
+    <body>
+        <!-- Div contendo o texto resultante do Python e o botão para voltar para tela inicial-->         
         <div>
             <h2 id="resultText"></h2>
             <div class="divButton">
@@ -20,6 +26,7 @@
             </div>
         </div>
 
+        <!-- Chamada para o script resultscreen.js -->
         <script defer src="../js/resultscreen.js"></script>
     </body>    
       

@@ -1,3 +1,6 @@
+<!-- Autor: Bruno Gomes -->
+<!-- Página inicial da aplicação que contém um formulário para permitir ao usuário a inserção dos parâmetros desejados -->
+
 <!DOCTYPE html>
 <html>
 
@@ -7,6 +10,7 @@
         
         <title>Landmarks Extractor</title>                
         
+        <!-- Carrega o bootstrap, fonte e index.css -->
         <link href="<https://fonts.googleapis.com/css2?family=Roboto&display=swap>" rel="stylesheet">
         <link href="./../../node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
         <script src="./../../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -14,12 +18,21 @@
     </head>
 
     <body>
-
+        
+        <!-- Formulário -->
         <form class="form-horizontal">
             <h1>Extração de landmarks</h1>
 
             <div class="form-group row mb-3">
-                <label for="Diretorio">Diretório contendo os vídeos:</label>                    
+                <div class="infoLabel">
+                    <label for="Diretorio">Diretório contendo os vídeos:</label>
+                    <div class="popup">?
+                        <div>
+                            Selecione um diretório que contenha ao menos um vídeo no formato .mp4. 
+                            Em caso de haver múltiplos vídeos no diretório, todos aqueles com formato .mp4 serão processados pela aplicação.
+                        </div>
+                    </div>
+                </div>
                 <div class="col-sm-6">
                     <input type="text" class="form-control" id="inputPathSource" placeholder="./" data-toggle="tooltip" data-placement="top" disabled >                          
                 </div>
@@ -30,7 +43,14 @@
             </div>
 
             <div class="form-group row mb-3">
-                <label for="Diretorio">Diretório de destino:</label>                    
+                <div class="infoLabel">
+                    <label for="Diretorio">Diretório de destino:</label>
+                    <div class="popup">?
+                        <div>
+                            Selecione o diretório desejado para salvar o arquivo resultante json com as landmarks extraídas.
+                        </div>
+                    </div>
+                </div>
                 <div class="col-sm-6">
                     <input type="text" class="form-control" id="inputPathDestiny" placeholder="./" data-toggle="tooltip" data-placement="top" disabled >                          
                 </div>
@@ -43,7 +63,12 @@
             <div class="form-group row mb-4">
                 <div class="infoLabel">
                     <label for="Parametro">Intervalo de frames:</label>         
-                    <div class="popup">?<div>As landmarks serão extraídas a cada frame informado neste campo. Quanto maior o intervalo, menor a quantidade de landmarks extraídas e o tempo de processamento, e vice-versa.</div></div>      
+                    <div class="popup">?
+                        <div>
+                            As landmarks serão extraídas a cada frame informado neste campo. 
+                            Quanto maior o intervalo, menor a quantidade de landmarks extraídas e o tempo de processamento, e vice-versa.
+                        </div>
+                    </div>
                 </div> 
                 <div class="col-sm-4">                                
                     <input type="number" class="form-control" id="batchSizeNumber" min="0" data-bind="value:batchSizeNumber"/>              
@@ -56,8 +81,7 @@
             </div>
         </form>        
 
-        
-
+        <!-- Chamada para o script index.js -->
         <script defer src="../js/index.js"></script>  
     </body>    
       

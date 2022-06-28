@@ -1,3 +1,9 @@
+/*
+Autor: Bruno Gomes
+Este script é responsável por configurar e inicializar a aplicação desktop via electron,
+além de definir eventos de get e set personalizados
+*/
+
 // Carregando módulos do framework Electron
 const { app, BrowserWindow, dialog, ipcMain } = require('electron');
 
@@ -35,34 +41,38 @@ app.on("window-all-closed", ()=>{
     if(process.platform !== "darwin") app.quit();
 })
 
+// Quando o evento 'save-result-text' for chamado, a mensagem de sucesso ou erro retornada pelo script python será salva na variável 'text'.
 ipcMain.on("save-result-text", (event, args) => {
     text = args[0]
 });
 
+// Quado o evento 'get-result-text' for chamado, a mensagem resultante do script python será retornada.
 ipcMain.on("get-result-text", (event, args) => {
     event.returnValue = [text]
 });
 
+// Quando o evento 'save-options' for chamado, os options que serão passados para a lib PythonShell serão salvos, tais como caminho do arquivo python e argumentos necessários.
 ipcMain.on("save-options", (event, args) => {
     options = args[0]
 });
 
+// Quando o evento 'get-options' for chamado, os options da lib PythonShell serão retornados.
 ipcMain.on("get-options", (event, args) => {
     event.returnValue = [options]
 });
 
-// Quando o evento 'load-videos' for chamado, o caminho do diretório e os arquivos de vídeos são salvos
+// Quando o evento 'load-videos' for chamado, o caminho do diretório e os arquivos de vídeos são salvos.
 ipcMain.on("load-videos", (event, args) => {
     path = args[0]
     file_videos = args[1]
 });
 
-// Quando o evento 'get-videos' for chamado, o caminho do diretório e os arquivos de vídeos serão retornados
+// Quando o evento 'get-videos' for chamado, o caminho do diretório e os arquivos de vídeos serão retornados.
 ipcMain.on("get-videos", (event, args) => {
     event.returnValue = [path, file_videos]
 });
 
-// Quando o evento 'select-directory' for chamado a janela de diretórios é aberta e, em seguida, retorna o caminho especificado
+// Quando o evento 'select-directory' for chamado, a janela de diretórios é aberta e, em seguida, retorna o caminho especificado.
 ipcMain.on('select-directory', (event, arg) => {
     selected_dir = dialog.showOpenDialogSync({
         properties: ['openDirectory']

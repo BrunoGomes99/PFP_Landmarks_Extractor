@@ -1,3 +1,6 @@
+<!-- Autor: Bruno Gomes -->
+<!-- Página responsável por exibir o ícone e mensagem de carregamento enquanto o script Python é processado -->
+
 <!DOCTYPE html>
 <html>
 
@@ -7,16 +10,19 @@
         
         <title>Landmarks Extractor</title>                                        
         
+        <!-- Carrega a fonte e o loadingscreen.css -->
         <link href="<https://fonts.googleapis.com/css2?family=Roboto&display=swap>" rel="stylesheet">
         <link href="../css/loadingscreen.css" rel="stylesheet">
     </head>
 
-    <body>            
+    <body>
+        <!-- Div contendo o ícone de carregamento (montado via css) e h2 -->
         <div>
             <div class="loader-icon"></div>
             <h2>Por favor, aguarde enquanto os vídeos são processados.</h2>
         </div>
         
+        <!-- Chamada para o script loadingscreen.js -->
         <script defer src="../js/loadingscreen.js"></script>
     </body>
       
