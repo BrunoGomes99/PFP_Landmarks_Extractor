@@ -30,59 +30,86 @@ function validateFields() {
     let inputPathDestiny = document.getElementById("inputPathDestiny");
     let batchSizeNumber = document.getElementById("batchSizeNumber");
 
-    let requiredSpanCaminhoOrigem = document.getElementById("avisoCaminhoOrigem");    
+    let spanNoVideosFounded = document.getElementById("avisoVideoNaoEncontrado");
+    let requiredSpanCaminhoOrigem = document.getElementById("avisoCaminhoOrigem");
     let requiredSpanCaminhoDestino = document.getElementById("avisoCaminhoDestino");    
-    let requiredSpanBatchSize = document.getElementById("avisoBatchSize");    
+    let requiredSpanBatchSize = document.getElementById("avisoBatchSizeObrigatorio");    
+    let invalidSpanBatchSize = document.getElementById("avisoBatchSizeInvalido");    
 
-    let isValidFields = false;
+    let hasPathSourceValue = false;
+    let hasPathDestinyValue = false;
+    let hasBatchSizeValue = false;
+    let isBatchSizeValid = false;
+
+    // Garante que a mensagem de vídeo não encontrado esteja escondida.
+    spanNoVideosFounded.hidden = true;
+    inputPathSource.required = false;
 
     // Se o usuário não selecionar um caminho de origem, a mensagem de obrigatoriedade será mostrada.
     if (inputPathSource.value == "" || inputPathSource.value == "./"){        
         requiredSpanCaminhoOrigem.hidden = false;
         inputPathSource.required = true;
-        isValidFields = false;
+        hasPathSourceValue = false;
     }
      // Se o usuário selecionar um caminho de origem, a mensagem de obrigatoriedade será escondida.
     else{        
         requiredSpanCaminhoOrigem.hidden = true;
         inputPathSource.required = false;
-        isValidFields = true;
+        hasPathSourceValue = true;
     }
 
     // Se o usuário não selecionar um caminho de destino, a mensagem de obrigatoriedade será mostrada.
     if (inputPathDestiny.value == "" || inputPathDestiny.value == "./"){        
         requiredSpanCaminhoDestino.hidden = false;
         inputPathDestiny.required = true;
-        isValidFields = false;
+        hasPathDestinyValue = false;
     }
      // Se o usuário selecionar um caminho de destino, a mensagem de obrigatoriedade será escondida.
     else{        
         requiredSpanCaminhoDestino.hidden = true;
         inputPathDestiny.required = false;
-        isValidFields = true;
+        hasPathDestinyValue = true;
     }
 
     // Se o usuário não selecionar o intervalo de frames, a mensagem de obrigatoriedade será mostrada.
-    if (batchSizeNumber.value == "" || batchSizeNumber.value == "0"){        
+    if (batchSizeNumber.value == ""){        
         requiredSpanBatchSize.hidden = false;
         batchSizeNumber.required = true;
-        isValidFields = false;
+        hasBatchSizeValue = false;
     }
      // Se o usuário selecionar  o intervalo de frames, a mensagem de obrigatoriedade será escondida.
     else{        
         requiredSpanBatchSize.hidden = true;
         batchSizeNumber.required = false;
-        isValidFields = true;
+        hasBatchSizeValue = true;
+    }
+    
+    // Se o usuário selecionar um intervalo de frames negativo ou um número decimal, a mensagem de valor inválido será mostrada.
+    // A função 'indexOf' checa se existe ponto flutuante no na string retornada. Caso exista, ela retorna algo diferente de -1, ou seja, o index desse ponto na string
+    if (batchSizeNumber.value != "" && batchSizeNumber.value <= "0" || batchSizeNumber.value != "" && (batchSizeNumber.value.indexOf(".") != "-1")){        
+        invalidSpanBatchSize.hidden = false;        
+        isBatchSizeValid = false;
+    }
+     // Se o usuário selecionar um intervalo de frames válido, a mensagem de valor inválido será escondida.
+    else{        
+        invalidSpanBatchSize.hidden = true;        
+        isBatchSizeValid = true;
     }
 
-    // Uma vez que todos os campos estiverem devidamente preenchidos, o método de preparo para o script Python será chamado.
-    if (isValidFields)
+    // Uma vez que todos os campos estiverem devidamente preenchidos e válidos, o método de preparo para o script Python será chamado.
+    if (hasPathSourceValue && hasPathDestinyValue && hasBatchSizeValue && isBatchSizeValid)
         prepareScript()
 }
 
 
 // Este método abre uma janela para a seleção do diretório contendo os vídeos desejados para a extração de landmarks.
-function selectDirSource(){
+function selectDirSource(){    
+
+  // Carrega o input do caminho de origem, a mensagem de vídeo não encontrado e a mensagem de campo obrigatório
+  let requiredSpanCaminhoOrigem = document.getElementById("avisoCaminhoOrigem");
+  let spanNoVideosFounded = document.getElementById("avisoVideoNaoEncontrado");
+  let inputPathSource = document.getElementById("inputPathSource");
+
   // Chama o evento 'select-directory', responsável por retornar o caminho do diretório escolhido pelo usuário.
   let selected_path = ipcRenderer.sendSync('select-directory', "");
 
@@ -103,10 +130,19 @@ function selectDirSource(){
               // Se encontrar arquivos .mp4 no diretório, chama o evento 'load-videos', passando o caminho do diretório e os arquivos.
               // Este evento irá setar ambos em variáveis para serem posteriormente recuperados.
               ipcRenderer.send('load-videos', [selected_path, files]);
+
+              // Caso exista vídeos .mp4 no diretório escolhido, esconde a mensagem de vídeo não encontrado
+              spanNoVideosFounded.hidden = true;
+              requiredSpanCaminhoOrigem.hidden = true;
+              inputPathSource.required = false;
           } else {
               // Se não encontrar arquivos .mp4 no diretório, exibe um alerta.
               inputPathSource.value = "./"
-              alert("Nenhum arquivo .mp4 encontrado")              
+
+              // Caso não exista vídeos .mp4 no diretório escolhido, mostra a mensagem de vídeo não encontrado e esconde a mensagem de campo obrigatório
+              spanNoVideosFounded.hidden = false;
+              requiredSpanCaminhoOrigem.hidden = true;
+              inputPathSource.required = true;              
           }
       })
   }
@@ -115,14 +151,22 @@ function selectDirSource(){
 
 // Este método abre uma janela para a seleção do diretório de destino para salvar o arquivo json
 function selectDirDestiny(){
+    // Carrega o input do caminho de destino, a mensagem de vídeo não encontrado e a mensagem de campo obrigatório.
+    let requiredSpanCaminhoDestino = document.getElementById("avisoCaminhoDestino");
+    let inputPathSource = document.getElementById("inputPathSource");
+
     // Chama o evento 'select-directory', responsável por retornar o caminho do diretório escolhido pelo usuário.
     let selected_path = ipcRenderer.sendSync('select-directory', "");
   
     // Checa se ao menos um diretório foi selecionado.
     if (selected_path != undefined) {
         // Se sim, carrega o input do diretório com o respectivo caminho selecionado.
-        inputPathDestiny.value = selected_path;            
-    }       
+        inputPathDestiny.value = selected_path;
+
+        // Se selecionar um diretório válido, esconde a mensagem de diretório inválido.
+        requiredSpanCaminhoDestino.hidden = true;
+        inputPathSource.required = false;
+    }
 }
 
 

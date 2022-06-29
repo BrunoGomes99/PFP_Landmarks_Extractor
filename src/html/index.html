@@ -20,9 +20,15 @@
     <body>
         
         <!-- Formulário -->
-        <form class="form-horizontal">
-            <h1>Extração de landmarks</h1>
-
+        <form class="form-horizontal">            
+            <div class="titulo">
+                <h1 style="text-align: center;">Extração de landmarks</h1>
+                <p style="font-size: 11pt; text-align: center;">
+                    Esta ferramenta permite que você extraia as landmarks faciais de um ou mais rostos presentes em vídeos no formato mp4.
+                    Para isso, é necessário informar um intervalo que indica de quantos em quantos frames ocorrerá uma extração nos vídeos.
+                    Por fim, as landmarks extraídas serão salvas em arquivo json no diretório informado.
+                </p>
+            </div>
             <div class="form-group row mb-3">
                 <div class="infoLabel">
                     <label for="Diretorio">Diretório contendo os vídeos:</label>
@@ -40,6 +46,7 @@
                     <button id="buttonPathSource" type="button" class="btn btn-primary float-start">Selecione o diretório</button>
                 </div>                    
                 <small id="avisoCaminhoOrigem" class="form-text text-danger" hidden>É necessário selecionar um diretório váldio.</small>
+                <small id="avisoVideoNaoEncontrado" class="form-text text-danger" hidden>Nenhum arquivo .mp4 encontrado. Por favor, selecione um diretório váldio.</small>
             </div>
 
             <div class="form-group row mb-3">
@@ -71,15 +78,16 @@
                     </div>
                 </div> 
                 <div class="col-sm-4">                                
-                    <input type="number" class="form-control" id="batchSizeNumber" min="0" data-bind="value:batchSizeNumber"/>              
+                    <input type="number" class="form-control" id="batchSizeNumber" min="0" data-bind="value:batchSizeNumber"/>
                 </div>
-                <small id="avisoBatchSize" class="form-text text-danger" hidden>É necessário definir o intervalo de frames extraídos por vídeo.</small>                
+                <small id="avisoBatchSizeObrigatorio" class="form-text text-danger" hidden>É necessário definir o intervalo de frames extraídos por vídeo.</small>                
+                <small id="avisoBatchSizeInvalido" class="form-text text-danger" hidden>O intervalo de frames deve ser um número inteiro positivo.</small>                
             </div>                    
 
             <div>
                 <button class="btn btn-primary" type="button" id="confirmButton">Confirmar</button>
             </div>
-        </form>        
+        </form>
 
         <!-- Chamada para o script index.js -->
         <script defer src="../js/index.js"></script>  

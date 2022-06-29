@@ -1,0 +1,6 @@
+PS D:\Meus Documentos\Mestrado\Projeto Final de Programação\landmarks-extractor\test> python test.py
+.
+----------------------------------------------------------------------
+Ran 1 test in 12.619s
+
+OK

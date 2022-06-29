@@ -1,14 +1,14 @@
 {
   "name": "landmarks-extractor",
   "version": "1.0.0",
-  "description": "",
+  "description": "Esta ferramenta extrai as landmarks dos rostos de uma ou mais pessoas contidas em vídeos no formato .mp4.",
   "main": "src/js/main.js",
   "scripts": {
     "start": "electron .",
     "test": "mocha"
   },
   "keywords": [],
-  "author": "",
+  "author": "Bruno Gomes",
   "license": "ISC",
   "devDependencies": {
     "electron": "^13.1.4",
